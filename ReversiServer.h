@@ -14,7 +14,7 @@ public:
 private:
     int port;
     int serverSocket;
-
+    char* move;
     void hendleClient(int clientServer);
 
 };
