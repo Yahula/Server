@@ -64,7 +64,7 @@ void ReversiServer::start() {
         }
 
         if(players == 2) {
-            char who[] = "You are the White player (O), you play second!";
+            char who[] = "You are the White player (O), you play second!, waiting for black player move...";
             int n = write(clientSocket, &who, sizeof(who));
             if (n == -1) {
                 std::cout << "Error writing to socket" << std::endl;
