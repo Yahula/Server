@@ -16,7 +16,7 @@ private:
     int serverSocket;
     char* move;
     void hendleClient(int clientServer);
-
+    int noMovesCounter;
 };
 
 
