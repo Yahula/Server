@@ -110,15 +110,15 @@ void ReversiServer::start() {
     }
 }
 /**
- * this method hendles the cliente conection - sends information and resieves information.
+ * this method hendles the client conection - sends information and resieves information.
  * @param clientSocket what socket to use.
  */
 void ReversiServer::hendleClient(int clientSocket) {
-    if (noMovesCounter==2){
-        std::cout<<"Game Over!"<<std::endl;
-        close(clientSocket);
-        return;
-    }
+//    if (noMovesCounter==2){
+//        std::cout<<"Game Over!"<<std::endl;
+//        close(clientSocket);
+//        return;
+//    }
     int n = write(clientSocket, &this->move, 3);
     if (n == -1) {
         std::cout << "Error writing to socket" << std::endl;
@@ -134,12 +134,12 @@ void ReversiServer::hendleClient(int clientSocket) {
         std::cout << "Client disconnected" << std::endl;
         return;
     }
-    if (!strcmp(this->move, "END")) {
-        this->noMovesCounter++;
-    }
-    else{
-        this->noMovesCounter=0;
-    }
+//    if (!strcmp(this->move, "END")) {
+//        this->noMovesCounter++;
+//    }
+//    else{
+//        this->noMovesCounter=0;
+//    }
 }
 
 
