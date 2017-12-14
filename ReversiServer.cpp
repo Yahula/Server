@@ -13,10 +13,10 @@
 #define MAX_CONNECTED_CLIENTS 2
 
 ReversiServer::ReversiServer(int port) : port(port), serverSocket(0) {
-    this->move = new char[3];
-    this->move[0] = '0';
-    this->move[1] = ',';
-    this->move[2] = '0';
+    this->move = new char[10];
+    this->move[0] = 'O';
+    this->move[1] = 'K';
+    this->move[2] = '.';
     this->noMovesCounter = 0;
     std::cout << "Server" << std::endl;
 }
@@ -106,6 +106,7 @@ void ReversiServer::start() {
         else {
             hendleClient(clientSocket2);
             hendleClient(clientSocket1);
+
         }
     }
 }
@@ -114,12 +115,8 @@ void ReversiServer::start() {
  * @param clientSocket what socket to use.
  */
 void ReversiServer::hendleClient(int clientSocket) {
-//    if (noMovesCounter==2){
-//        std::cout<<"Game Over!"<<std::endl;
-//        close(clientSocket);
-//        return;
-//    }
-    int n = write(clientSocket, &this->move, 3);
+
+    int n = write(clientSocket, &this->move, sizeof(this->move));
     if (n == -1) {
         std::cout << "Error writing to socket" << std::endl;
         return;
@@ -134,12 +131,18 @@ void ReversiServer::hendleClient(int clientSocket) {
         std::cout << "Client disconnected" << std::endl;
         return;
     }
-//    if (!strcmp(this->move, "END")) {
-//        this->noMovesCounter++;
-//    }
-//    else{
-//        this->noMovesCounter=0;
-//    }
+    if(!strcmp(this->move,"no move")){
+        noMovesCounter++;
+        if (noMovesCounter ==2){
+            this->move == "END";
+        } else {
+            this->move = "0,0";
+        }
+    } else if(!strcmp(this->move,"END")) {
+
+    } else {
+        noMovesCounter = 0;
+    }
 }
 
 
