@@ -17,6 +17,7 @@ private:
     char* move;
     void hendleClient(int clientServer);
     int noMovesCounter;
+    int* clients;
 };
 
 
