@@ -63,7 +63,7 @@ void ReversiServer::start() {
             std::cout << "Error writing to socket" << std::endl;
         }
         char who1[] = "You are the Black player (X), you play first! Waiting for other player to join...";
-        n = write(clientSocket1,&who1, sizeof(who1));
+        n = write(clientSocket1,who1, sizeof(who1)/ sizeof(char));
         if (n==-1){
             std::cout << "Error writing to socket" << std::endl;
         }
@@ -85,7 +85,7 @@ void ReversiServer::start() {
         }
 
         char who2[] = "You are the White player (O), you play second!, waiting for black player move...";
-        n = write(clientSocket2, &who2, sizeof(who2));
+        n = write(clientSocket2, who2, sizeof(who2)/ sizeof(char));
         if (n == -1) {
             std::cout << "Error writing to socket" << std::endl;
         }
@@ -97,7 +97,7 @@ void ReversiServer::start() {
 
     while (true) {
         if(firstMove){
-            int n = read(clientSocket1, &this->move, sizeof(this->move));
+            int n = read(clientSocket1, this->move, sizeof(this->move)/ sizeof(char));
             if (n == -1) {
                 std::cout << "Error reading arg1" << std::endl;
                 return;
@@ -123,13 +123,13 @@ void ReversiServer::start() {
  */
 void ReversiServer::hendleClient(int clientSocket) {
 
-    int n = write(clientSocket, &this->move, sizeof(this->move));
+    int n = write(clientSocket, this->move, sizeof(this->move)/ sizeof(char));
     if (n == -1) {
         std::cout << "Error writing to socket" << std::endl;
         return;
     }
 
-    n = read(clientSocket, &this->move, sizeof(this->move));
+    n = read(clientSocket, this->move, sizeof(this->move)/ sizeof(char));
     if (n == -1) {
         std::cout << "Error reading arg1" << std::endl;
         return;
