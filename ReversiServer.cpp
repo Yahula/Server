@@ -95,7 +95,7 @@ void ReversiServer::start() {
     this->clients[1] = clientSocket2;
     int cNum = 1;
 
-    while (true) {
+    while (noMovesCounter!=3) {
         if(firstMove){
             int n = read(clientSocket1, this->move, sizeof(this->move)/ sizeof(char));
             if (n == -1) {
@@ -141,8 +141,20 @@ void ReversiServer::hendleClient(int clientSocket) {
     if(!strcmp(this->move,"nmv")) {
         noMovesCounter++;
         if (noMovesCounter == 2) {
+            char end[] = "end";
+            int n = write(clients[0], end, sizeof(end)/sizeof(char));
+            if (n == -1) {
+                std::cout << "Error writing end to fist socket" << std::endl;
+                return;
+            }
             close(clients[0]);
+            n = write(clients[1], end, sizeof(end)/sizeof(char));
+            if (n == -1) {
+                std::cout << "Error writing end to second socket" << std::endl;
+                return;
+            }
             close(clients[1]);
+            noMovesCounter++;
         }
     } else {
         noMovesCounter = 0;
