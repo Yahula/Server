@@ -19,6 +19,7 @@ ReversiServer::ReversiServer(int port) : port(port), serverSocket(0) {
     this->move[2] = '.';
     this->noMovesCounter = 0;
     this->clients = new int[MAX_CONNECTED_CLIENTS];
+    this->firstMove = true;
 
     std::cout << "Server" << std::endl;
 }
@@ -44,7 +45,6 @@ void ReversiServer::start() {
     struct sockaddr_in clientAddress;
     socklen_t clientAddressLen;
 
-    bool firstMove = true;
     int players = 0;
 
     std::cout << "Waiting for players connection..." << std::endl;
@@ -93,28 +93,12 @@ void ReversiServer::start() {
 
     this->clients[0] = clientSocket1;
     this->clients[1] = clientSocket2;
-    int cNum = 1;
+    int cNum = 0;
 
     while (noMovesCounter!=3) {
-        if(firstMove){
-            int n = read(clientSocket1, this->move, sizeof(this->move)/ sizeof(char));
-            if (n == -1) {
-                std::cout << "Error reading arg1" << std::endl;
-                return;
-            }
-            else{
-                std::cout<<"move recieved by server"<<std::endl;
-            }
-            if (n == 0) {
-                std::cout << "Client disconnected" << std::endl;
-                return;
-            }
-            firstMove = false;
-        }
-        else {
             hendleClient(clients[cNum]);
             cNum = (cNum+1)%2;
-        }
+
     }
 }
 /**
@@ -122,22 +106,26 @@ void ReversiServer::start() {
  * @param clientSocket what socket to use.
  */
 void ReversiServer::hendleClient(int clientSocket) {
-
-    int n = write(clientSocket, this->move, sizeof(this->move)/ sizeof(char));
-    if (n == -1) {
-        std::cout << "Error writing to socket" << std::endl;
-        return;
+    if(!this->firstMove) {
+        int n = write(clientSocket, this->move, sizeof(this->move) / sizeof(char));
+        if (n == -1) {
+            std::cout << "Error writing to socket" << std::endl;
+            return;
+        }
+    } else{
+        this->firstMove = false;
     }
 
-    n = read(clientSocket, this->move, sizeof(this->move)/ sizeof(char));
+    int n = read(clientSocket, this->move, sizeof(this->move)/ sizeof(char));
     if (n == -1) {
-        std::cout << "Error reading arg1" << std::endl;
+        std::cout << "Error reading move" << std::endl;
         return;
     }
     if (n == 0) {
         std::cout << "Client disconnected" << std::endl;
         return;
     }
+    std::cout<<"Move recieved"<<std::endl;
     if(!strcmp(this->move,"nmv")) {
         noMovesCounter++;
         if (noMovesCounter == 2) {
@@ -159,6 +147,7 @@ void ReversiServer::hendleClient(int clientSocket) {
     } else {
         noMovesCounter = 0;
     }
+
 }
 
 

@@ -18,6 +18,7 @@ private:
     void hendleClient(int clientServer);
     int noMovesCounter;
     int* clients;
+    bool firstMove;
 };
 
 
