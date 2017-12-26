@@ -58,6 +58,7 @@ private:
      * an array of players(clients).
      */
     int* clients;
+    bool firstMove;
 };
 
 
