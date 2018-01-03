@@ -5,6 +5,7 @@
 #ifndef SERVER_REVERSISERVER_H
 #define SERVER_REVERSISERVER_H
 
+#include <pthread.h>
 
 class ReversiServer {
 public:
@@ -19,6 +20,7 @@ private:
     int noMovesCounter;
     int* clients;
     bool firstMove;
+    pthread_t serverThreadId;
 };
 
 
