@@ -5,6 +5,7 @@
 #ifndef SERVER_REVERSISERVER_H
 #define SERVER_REVERSISERVER_H
 
+#include <pthread.h>
 
 class ReversiServer {
 public:
@@ -14,9 +15,12 @@ public:
 private:
     int port;
     int serverSocket;
-
+    char* move;
     void hendleClient(int clientServer);
-
+    int noMovesCounter;
+    int* clients;
+    bool firstMove;
+    pthread_t serverThreadId;
 };
 
 
