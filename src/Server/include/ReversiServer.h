@@ -5,6 +5,9 @@
 #ifndef SERVER_REVERSISERVER_H
 #define SERVER_REVERSISERVER_H
 
+#include <pthread.h>
+
+
 /**
  * this class is our server. it conecctes players to play a game.
  */
@@ -59,6 +62,8 @@ private:
      */
     int* clients;
     bool firstMove;
+    pthread_t serverThreadId;
+
 };
 
 
