@@ -50,47 +50,48 @@ void ReversiServer::start() {
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
     pthread_create(&serverThreadId, NULL, &acceptClients, (void *) serverSocket);
 }
-    static void *acceptClients(void *socket) {
-        long serverSocket = (long) socket;
-        struct sockaddr_in clientAddress;
-        socklen_t clientAddressLen;
+static void *acceptClients(void *socket) {
+    long serverSocket = (long) socket;
+    struct sockaddr_in clientAddress;
+    socklen_t clientAddressLen;
 
-        while (true) {
-            std::cout << "Waiting for client connections..." << std::endl;
+    while (true) {
+        std::cout << "Waiting for client connections..." << std::endl;
 
-            int clientSocket = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
-            if (clientSocket == -1)
-                throw "Error on accept";
-            std::cout << "Client connected" << std::endl;
+        int clientSocket = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
+        if (clientSocket == -1)
+            throw "Error on accept";
+        std::cout << "Client connected" << std::endl;
 
-            pthread_t threadId;
-            pthread_create(&threadId, NULL, &handleClient, (void *) clientSocket);
-        }
+        pthread_t threadId;
+        pthread_create(&threadId, NULL, &handleClient, (void *) clientSocket);
     }
-        static void *handleClient(void *socket) {
-            long clientSocket = (long) socket;
-            char commandStr[MAX_COMMAND_LEN];
-            // Read the command from the socket
-            int n = read(clientSocket, commandStr, MAX_COMMAND_LEN);
-            if (n == -1) {
-                cout << "Error reading command" << endl;
-                return NULL;
-            }
-            cout << "Received command: " << commandStr << endl;
-            // Split the command string to the command name and the arguments
-            string str(commandStr);
-            istringstream iss(str);
-            string command;
-            iss >> command;
-            vector<string> args;
-            while (iss) {
-                string arg;
-                iss >> arg;
-                args.push_back(arg);
-            }
-            CommandsManager::getInstance()->executeCommand(command, args, clientSocket);
-            return NULL;
-        }
+}
+
+static void *handleClient(void *socket) {
+    long clientSocket = (long) socket;
+    char commandStr[MAX_COMMAND_LEN];
+    // Read the command from the socket
+    int n = read(clientSocket, commandStr, MAX_COMMAND_LEN);
+    if (n == -1) {
+        cout << "Error reading command" << endl;
+        return NULL;
+    }
+    cout << "Received command: " << commandStr << endl;
+    // Split the command string to the command name and the arguments
+    string str(commandStr);
+    istringstream iss(str);
+    string command;
+    iss >> command;
+    vector<string> args;
+    while (iss) {
+        string arg;
+        iss >> arg;
+        args.push_back(arg);
+    }
+    CommandsManager::getInstance()->executeCommand(command, args, clientSocket);
+    return NULL;
+}
 //        int players = 0;
 //    //first player connection
 //    int clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
