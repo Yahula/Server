@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS "-pthread")
 #FIND_PACKAGE(Threads)
 
 
-set(SOURCE_FILES src/Server/main.cpp src/Server/ReversiServer.cpp src/Server/include/ReversiServer.h src/Server/include/Command.h src/Server/include/CommandsManager.h src/Server/CommandManager.cpp src/Server/include/StartCommand.h)
+set(SOURCE_FILES src/Server/main.cpp src/Server/ReversiServer.cpp src/Server/include/ReversiServer.h src/Server/include/Command.h src/Server/include/CommandsManager.h src/Server/CommandManager.cpp src/Server/include/StartCommand.h src/Server/JoinCommand.cpp)
 add_executable(Server ${SOURCE_FILES})
 
 #TARGET_LINK_LIBRARIES(Server ${CMAKE_THREAD_LIBS_INIT})
