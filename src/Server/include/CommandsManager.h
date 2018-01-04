@@ -2,13 +2,15 @@
 // Created by Yahel Ben ishay on 1/1/18.
 //
 
-#include <map>
-#include "Command.h"
-
 #ifndef SERVER_COMMANDSMANAGER_H
 #define SERVER_COMMANDSMANAGER_H
 
-#endif //SERVER_COMMANDSMANAGER_H
+#include <map>
+#include "StartCommand.h"
+#include "ListGamesCommand.h"
+#include "JoinCommand.h"
+#include "PlayCommand.h"
+#include "CloseCommand.h"
 
 class CommandsManager {
 public:
@@ -23,3 +25,5 @@ private:
     static pthread_mutex_t lock;
     map<string, Command *> commandsMap;
 };
+
+#endif //SERVER_COMMANDSMANAGER_H

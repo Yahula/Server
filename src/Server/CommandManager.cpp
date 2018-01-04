@@ -3,11 +3,6 @@
 //
 
 #include "./include/CommandsManager.h"
-#include "include/StartCommand.h"
-#include "./include/ListGamesCommand.h"
-#include "include/JoinCommand.h"
-#include "include/PlayCommand.h"
-#include "include/CloseCommand.h"
 
 CommandsManager* CommandsManager::instance = 0;
 
