@@ -6,7 +6,7 @@
 #define SERVER_REVERSISERVER_H
 
 #include <pthread.h>
-
+#include "CommandsManager.h"
 
 /**
  * this class is our server. it conecctes players to play a game.
