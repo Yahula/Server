@@ -16,6 +16,8 @@ class Command {
 public:
     virtual void execute(vector<string> args, int socket = 0) = 0;
     virtual ~Command() {}
+
+protected:
 };
 
 #endif //SERVER_COMMAND_H
