@@ -15,7 +15,7 @@
 class CommandsManager {
 public:
     static CommandsManager* getInstance();
-    void executeCommand(string command, vector<string> args, int socket = 0);
+    void executeCommand(string command, vector<string> args, int socket = 0, pthread_t threadId);
 private:
     // A singleton
     CommandsManager();
