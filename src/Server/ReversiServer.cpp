@@ -29,6 +29,11 @@ ReversiServer::ReversiServer(int port) : port(port), serverSocket(0) {
     std::cout << "Server" << std::endl;
 }
 
+struct clinetInfo{
+    pthread_t threadId;
+    int socket;
+};
+
 void ReversiServer::start() {
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
@@ -62,13 +67,17 @@ static void *acceptClients(void *socket) {
             throw "Error on accept";
         std::cout << "Client connected" << std::endl;
 
-        pthread_t threadId;
-        pthread_create(&threadId, NULL, &handleClient, (void *) clientSocket);
+        clinetInfo info;
+        info.socket = clientSocket;
+
+        pthread_create(&info.threadId, NULL, &handleClient, (void *)&info);
     }
 }
 
-static void *handleClient(void *socket) {
-    long clientSocket = (long) socket;
+static void *handleClient(void *info) {
+    struct clientInfo *clinfo = (struct clientInfo *)info;
+    long clientSocket = (long) clinfo->socket;
+
     char commandStr[MAX_COMMAND_LEN];
     // Read the command from the socket
     int n = read(clientSocket, commandStr, MAX_COMMAND_LEN);
@@ -88,7 +97,7 @@ static void *handleClient(void *socket) {
         iss >> arg;
         args.push_back(arg);
     }
-    CommandsManager::getInstance()->executeCommand(command, args, clientSocket);
+    CommandsManager::getInstance()->executeCommand(command, args, clientSocket, clinfo->threadId);
     return NULL;
 }
 //        int players = 0;
