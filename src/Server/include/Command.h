@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <pthread.h>
+#include <unistd.h>
 
 using namespace std;
 

@@ -7,7 +7,7 @@
 
 #include <map>
 #include "StartCommand.h"
-//#include "ListGamesCommand.h"
+#include "ListGamesCommand.h"
 //#include "JoinCommand.h"
 //#include "PlayCommand.h"
 //#include "CloseCommand.h"
@@ -24,7 +24,7 @@ private:
     static CommandsManager* instance;
     static pthread_mutex_t lock;
     map<string, Command *> commandsMap;
-    map<string, pthread_t *> gamesList;
+    map<string, NetworkGame> gamesList;
 };
 
 #endif //SERVER_COMMANDSMANAGER_H

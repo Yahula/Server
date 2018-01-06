@@ -11,6 +11,9 @@
 #include <iostream>
 #include <sstream>
 #include "CommandsManager.h"
+#include <unistd.h>
+
+
 
 /**
  * this class is our server. it conecctes players to play a game.
