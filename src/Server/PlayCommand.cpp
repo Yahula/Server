@@ -5,7 +5,7 @@
 #include <string>
 #include "include/PlayCommand.h"
 
-void PlayCommand::execute(vector <string> args, int socket) {
+void PlayCommand::execute(vector<string> args, pthread_t threadId, int socket) {
 
 }
 

@@ -5,7 +5,7 @@
 #include <string>
 #include "include/CloseCommand.h"
 
-void CloseCommand::execute(vector <string> args, int socket) {
+void CloseCommand::execute(vector<string> args, pthread_t threadId, int socket = 0) {
 
 }
 

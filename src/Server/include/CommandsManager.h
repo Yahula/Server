@@ -7,15 +7,15 @@
 
 #include <map>
 #include "StartCommand.h"
-#include "ListGamesCommand.h"
-#include "JoinCommand.h"
-#include "PlayCommand.h"
-#include "CloseCommand.h"
+//#include "ListGamesCommand.h"
+//#include "JoinCommand.h"
+//#include "PlayCommand.h"
+//#include "CloseCommand.h"
 
 class CommandsManager {
 public:
     static CommandsManager* getInstance();
-    void executeCommand(string command, vector<string> args, int socket = 0, pthread_t threadId);
+    void executeCommand(string command, vector<string> args, int socket = 0, pthread_t threadId = NULL);
 private:
     // A singleton
     CommandsManager();
@@ -24,6 +24,7 @@ private:
     static CommandsManager* instance;
     static pthread_mutex_t lock;
     map<string, Command *> commandsMap;
+    map<string, pthread_t *> gamesList;
 };
 
 #endif //SERVER_COMMANDSMANAGER_H

@@ -5,7 +5,7 @@
 #include <string>
 #include "./include/JoinCommand.h"
 
-void JoinCommand::execute(vector <string> args, int socket) {
+void JoinCommand::execute(vector<string> args, pthread_t threadId, int socket) {
 
 }
 

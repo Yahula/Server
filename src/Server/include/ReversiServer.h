@@ -6,6 +6,10 @@
 #define SERVER_REVERSISERVER_H
 
 #include <pthread.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <iostream>
+#include <sstream>
 #include "CommandsManager.h"
 
 /**
@@ -63,7 +67,6 @@ private:
     int* clients;
     bool firstMove;
     pthread_t serverThreadId;
-
 };
 
 

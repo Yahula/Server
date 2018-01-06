@@ -3,36 +3,30 @@
 //
 
 #include "./include/ReversiServer.h"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <string.h>
-#include <iostream>
-#include <stdio.h>
-#include <sstream>
+
+
 
 #define MAX_CONNECTED_CLIENTS 10
-#define MAX_COMMAND_LEN 20
+#define MAX_COMMAND_LEN 50
 
+struct clientInfo{
+    pthread_t threadId;
+    int socket;
+};
 static void *acceptClients(void *);
 static void *handleClient(void *);
 
 ReversiServer::ReversiServer(int port) : port(port), serverSocket(0) {
-    this->move = new char[10];
-    this->move[0] = 'O';
-    this->move[1] = 'K';
-    this->move[2] = '.';
-    this->noMovesCounter = 0;
-    this->clients = new int[MAX_CONNECTED_CLIENTS];
-    this->firstMove = true;
+    move = new char[10];
+    move[0] = 'O';
+    move[1] = 'K';
+    move[2] = '.';
+    noMovesCounter = 0;
+    clients = new int[MAX_CONNECTED_CLIENTS];
+    firstMove = true;
 
     std::cout << "Server" << std::endl;
 }
-
-struct clinetInfo{
-    pthread_t threadId;
-    int socket;
-};
 
 void ReversiServer::start() {
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -67,16 +61,17 @@ static void *acceptClients(void *socket) {
             throw "Error on accept";
         std::cout << "Client connected" << std::endl;
 
-        clinetInfo info;
-        info.socket = clientSocket;
 
+        struct clientInfo info;
+
+        info.socket = clientSocket;
         pthread_create(&info.threadId, NULL, &handleClient, (void *)&info);
     }
 }
 
 static void *handleClient(void *info) {
-    struct clientInfo *clinfo = (struct clientInfo *)info;
-    long clientSocket = (long) clinfo->socket;
+    struct clientInfo *clientInfo1 = (struct clientInfo *)info;
+    long clientSocket = (long) clientInfo1->socket;
 
     char commandStr[MAX_COMMAND_LEN];
     // Read the command from the socket
@@ -97,7 +92,7 @@ static void *handleClient(void *info) {
         iss >> arg;
         args.push_back(arg);
     }
-    CommandsManager::getInstance()->executeCommand(command, args, clientSocket, clinfo->threadId);
+    CommandsManager::getInstance()->executeCommand(command, args, clientSocket, clientInfo1->threadId);
     return NULL;
 }
 //        int players = 0;
@@ -218,3 +213,4 @@ static void *handleClient(void *info) {
         close(serverSocket);
     cout << "Server stopped" << endl;
     }
+

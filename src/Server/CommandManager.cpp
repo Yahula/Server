@@ -4,6 +4,7 @@
 
 #include "./include/CommandsManager.h"
 
+
 CommandsManager* CommandsManager::instance = 0;
 
 pthread_mutex_t CommandsManager::lock;
@@ -20,16 +21,16 @@ CommandsManager* CommandsManager::getInstance() {
 }
 
 CommandsManager::CommandsManager() {
-    commandsMap["start"] = new StartCommand();
-    commandsMap["list_games"] = new ListGamesCommand();
-    commandsMap["join"] = new JoinCommand();
-    commandsMap["play"] = new PlayCommand();
-    commandsMap["close"] = new CloseCommand();
+    commandsMap["start"] = new StartCommand(gamesList);
+//    commandsMap["list_games"] = new ListGamesCommand();
+//    commandsMap["join"] = new JoinCommand();
+//    commandsMap["play"] = new PlayCommand();
+//    commandsMap["close"] = new CloseCommand();
 }
 
 void CommandsManager::executeCommand(string command, vector<string> args, int socket, pthread_t threadId) {
     Command *commandObj = commandsMap[command];
-    commandObj->execute(args, socket);
+    commandObj->execute(args, threadId, socket);
 }
 
 CommandsManager::~CommandsManager() {
