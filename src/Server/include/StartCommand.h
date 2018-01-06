@@ -8,6 +8,7 @@
 
 #include <map>
 #include "Command.h"
+#include <iostream>
 
 class StartCommand: public Command {
 public:
