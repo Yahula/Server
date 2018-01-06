@@ -11,6 +11,7 @@
 //#include "JoinCommand.h"
 //#include "PlayCommand.h"
 //#include "CloseCommand.h"
+#include "NetworkGame.h"
 
 class CommandsManager {
 public:
@@ -25,6 +26,7 @@ private:
     static pthread_mutex_t lock;
     map<string, Command *> commandsMap;
     map<string, NetworkGame> gamesList;
+
 };
 
 #endif //SERVER_COMMANDSMANAGER_H

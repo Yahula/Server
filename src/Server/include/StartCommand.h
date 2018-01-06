@@ -9,6 +9,8 @@
 #include <map>
 #include "Command.h"
 #include "NetworkGame.h"
+#include <iostream>
+
 
 class StartCommand: public Command {
 public:
