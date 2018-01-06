@@ -2,7 +2,8 @@
 // Created by Yahel Ben ishay on 1/4/18.
 //
 
-
+#include <string>
+#include <iostream>
 #include "include/StartCommand.h"
 
 
