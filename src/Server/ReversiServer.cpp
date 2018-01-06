@@ -7,7 +7,7 @@
 
 
 #define MAX_CONNECTED_CLIENTS 10
-#define MAX_COMMAND_LEN 20
+#define MAX_COMMAND_LEN 50
 
 struct clientInfo{
     pthread_t threadId;
