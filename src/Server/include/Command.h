@@ -14,7 +14,7 @@ using namespace std;
 
 class Command {
 public:
-    virtual void execute(vector<string> args, int socket = 0) = 0;
+    virtual void execute(vector<string> args, pthread_t threadId, int socket = 0) = 0;
     virtual ~Command() {}
 
 protected:

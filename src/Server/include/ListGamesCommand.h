@@ -11,7 +11,7 @@
 class ListGamesCommand: public Command {
 public:
     ListGamesCommand() {}
-    virtual void execute(vector<string> args, int socket = 0);
+    virtual void execute(vector<string> args, pthread_t threadId, int socket = 0);
 private:
     void ListGames();
 };

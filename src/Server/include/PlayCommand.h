@@ -11,7 +11,7 @@
 class PlayCommand: public Command {
 public:
     PlayCommand() {}
-    void execute(vector<string> args, int socket = 0);
+    void execute(vector<string> args, pthread_t threadId, int socket = 0);
 private:
     void play();
 };

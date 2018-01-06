@@ -6,14 +6,16 @@
 #define SERVER_STARTCOMMAND_H
 
 
+#include <map>
 #include "Command.h"
 
 class StartCommand: public Command {
 public:
-    StartCommand() {}
-    void execute(vector<string> args, int socket = 0);
+    StartCommand(map<string, pthread_t *> &gamesList);
+    void execute(vector<string> args, pthread_t threadId, int socket = 0);
 private:
     void start();
+    map<string, pthread_t *> gamesMap;
 };
 
 

@@ -5,7 +5,7 @@
 #include <string>
 #include "include/ListGamesCommand.h"
 
-void ListGamesCommand::execute(vector <string> args, int socket) {
+void ListGamesCommand::execute(vector<string> args, pthread_t threadId, int socket) {
 
 }
 

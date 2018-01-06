@@ -11,7 +11,7 @@
 class JoinCommand: public Command {
 public:
     JoinCommand() {}
-    void execute(vector<string> args, int socket = 0);
+    void execute(vector<string> args, pthread_t threadId, int socket = 0);
 private:
     void join();
 };

@@ -5,15 +5,15 @@
 #include <string>
 #include "include/StartCommand.h"
 
+StartCommand::StartCommand(map<string, pthread_t *> &gamesMap) : gamesMap(gamesMap) {}
 
-void StartCommand::execute(vector <string> args, int socket) {
-    gamesMap.insert ( pair<args,int>('a',100) );
+void StartCommand::execute(vector <string> args, pthread_t threadId, int socket) {
+    gamesMap[args[0]] = &threadId;
+
 
 }
 
 void StartCommand::start() {
 
-
 }
 
-StartCommand::StartCommand(map<string, int> &gamesMap) : gamesMap(gamesMap) {}
