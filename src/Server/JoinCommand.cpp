@@ -15,7 +15,8 @@ void JoinCommand::execute(vector<string> args, pthread_t threadId, int socket) {
     int game;
     for(int i =0; i< gamesList->size() ; i++ ){
         string s = gamesList->at(i)->getName();
-        if (!strcmp(s,args[0])){
+        string name(args[0]);
+        if (s.compare(name)){
             gamesList->at(i)->addSecoundPlayer(socket);
             game = i;
             break;
