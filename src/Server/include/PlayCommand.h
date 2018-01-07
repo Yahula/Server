@@ -7,13 +7,15 @@
 
 
 #include "Command.h"
+#include "NetworkGame.h"
 
 class PlayCommand: public Command {
 public:
-    PlayCommand() {}
+    PlayCommand(vector<NetworkGame *> *gamesList);
     void execute(vector<string> args, pthread_t threadId, int socket = 0);
 private:
     void play();
+    vector<NetworkGame *> *gamesList;
 };
 
 #endif //SERVER_PLAYCOMMAND_H
