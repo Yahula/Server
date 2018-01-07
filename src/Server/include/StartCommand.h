@@ -14,11 +14,11 @@
 
 class StartCommand: public Command {
 public:
-    StartCommand(map<string, NetworkGame> &gamesList);
+    StartCommand(vector<NetworkGame *> *gamesList);
     void execute(vector<string> args, pthread_t threadId, int socket = 0);
 private:
     void start();
-    map<string, NetworkGame> gamesMap;
+    vector<NetworkGame *> *gamesList;
 };
 
 

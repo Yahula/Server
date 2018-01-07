@@ -12,11 +12,11 @@
 
 class ListGamesCommand: public Command {
 public:
-    ListGamesCommand(map<string, NetworkGame> &gamesList) {}
+    ListGamesCommand(vector<NetworkGame *> *gamesList);
     virtual void execute(vector<string> args, pthread_t threadId, int socket = 0);
 private:
     void ListGames();
-    map<string, NetworkGame> gamesMap;
+    vector<NetworkGame *> *gamesList;
 };
 
 #endif //SERVER_LISTGAMESCOMMAND_H

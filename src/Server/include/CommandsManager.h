@@ -25,7 +25,7 @@ private:
     static CommandsManager* instance;
     static pthread_mutex_t lock;
     map<string, Command *> commandsMap;
-    map<string, NetworkGame> gamesList;
+    vector<NetworkGame *> gamesList;
 
 };
 
