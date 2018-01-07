@@ -16,7 +16,7 @@ void JoinCommand::execute(vector<string> args, pthread_t threadId, int socket) {
     for(int i =0; i< gamesList->size() ; i++ ){
         string s = gamesList->at(i)->getName();
         string name(args[0]);
-        if (s.compare(name)){
+        if (!s.compare(name)){
             gamesList->at(i)->addSecoundPlayer(socket);
             game = i;
             break;
@@ -33,7 +33,7 @@ void JoinCommand::execute(vector<string> args, pthread_t threadId, int socket) {
     }
 
     char msg2[] = "You have joined the game! we are ready to roll :) \nYou are the white (O) player, you play second! \nWaiting for black player to play...";
-    w = write(blckSock, msg2, strlen(msg2));
+    w = write(witSock, msg2, strlen(msg2));
     if (w == -1) {
         std::cout << "Error writing to client" << std::endl;
         return;
