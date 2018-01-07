@@ -13,6 +13,7 @@ StartCommand::StartCommand(vector<NetworkGame *> *gamesList){
 
 void StartCommand::execute(vector <string> args, pthread_t threadId, int socket) {
     gamesList->push_back(new NetworkGame(args[0], &threadId, socket));
+    gamesList->push_back(new NetworkGame("check", &threadId, socket));
     char msg[] = "Waiting for remote player to join...";
     int w = write(socket, msg, strlen(msg));
     if (w == -1) {
