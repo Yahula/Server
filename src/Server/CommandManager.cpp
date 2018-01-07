@@ -21,8 +21,8 @@ CommandsManager* CommandsManager::getInstance() {
 }
 
 CommandsManager::CommandsManager() {
-    commandsMap["start"] = new StartCommand(gamesList);
-    commandsMap["list_games"] = new ListGamesCommand(gamesList);
+    commandsMap["start"] = new StartCommand(&gamesList);
+    commandsMap["list_games"] = new ListGamesCommand(&gamesList);
 //    commandsMap["join"] = new JoinCommand();
 //    commandsMap["play"] = new PlayCommand();
 //    commandsMap["close"] = new CloseCommand();

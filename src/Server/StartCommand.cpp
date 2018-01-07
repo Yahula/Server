@@ -7,10 +7,12 @@
 #include "include/StartCommand.h"
 
 
-StartCommand::StartCommand(map<string, pthread_t *> &gamesMap) : gamesMap(gamesMap) {}
+StartCommand::StartCommand(vector<NetworkGame *> *gamesList){
+    this->gamesList = gamesList;
+}
 
 void StartCommand::execute(vector <string> args, pthread_t threadId, int socket) {
-    gamesMap[args[0]] = new NetworkGame(args[0], &threadId, socket);
+    gamesList->push_back(new NetworkGame(args[0], &threadId, socket));
     char msg[] = "Wait for remote player to join...";
     int w = write(socket, msg, strlen(msg));
     if (w == -1) {
