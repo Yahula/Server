@@ -12,23 +12,23 @@ ListGamesCommand::ListGamesCommand(vector<NetworkGame *> *gamesList) {
 }
 
 void ListGamesCommand::execute(vector<string> args, pthread_t threadId, int socket) {
+    string s;
 
     for(int i =0; i< gamesList->size() ; i++ ){
-        string s = gamesList->at(i)->getName()+" \n";
-        int w = write(socket, &s, s.size());
-        if (w == -1) {
-            std::cout << "Error writing to client" << std::endl;
-            return;
-        }
+        s.append(gamesList->at(i)->getName());
+        s.append(" \n");
     }
-    char msg[] = "END_LIST";
-    int w = write(socket, msg, strlen(msg));
+    int w = write(socket, &s, s.length());
     if (w == -1) {
         std::cout << "Error writing to client" << std::endl;
         return;
     }
-
-
+    char msg[] = "END_LIST";
+    w = write(socket, msg, strlen(msg));
+    if (w == -1) {
+        std::cout << "Error writing to client" << std::endl;
+        return;
+    }
 }
 
 

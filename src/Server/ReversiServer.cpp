@@ -73,26 +73,31 @@ static void *handleClient(void *info) {
     struct clientInfo *clientInfo1 = (struct clientInfo *)info;
     long clientSocket = (long) clientInfo1->socket;
 
-    char commandStr[MAX_COMMAND_LEN];
-    // Read the command from the socket
-    int n = read(clientSocket, commandStr, MAX_COMMAND_LEN);
-    if (n == -1) {
-        cout << "Error reading command" << endl;
-        return NULL;
+    while (true) {
+        char commandStr[MAX_COMMAND_LEN] = "\0";
+        // Read the command from the socket
+        int n = read(clientSocket, commandStr, MAX_COMMAND_LEN);
+        if (n == -1) {
+            cout << "Error reading command" << endl;
+            return NULL;
+        }
+        cout << "Received command: " << commandStr << endl;
+        // Split the command string to the command name and the arguments
+        string str(commandStr);
+        istringstream iss(str);
+        string command;
+        iss >> command;
+        vector<string> args;
+        while (iss) {
+            string arg;
+            iss >> arg;
+            args.push_back(arg);
+        }
+        CommandsManager::getInstance()->executeCommand(command, args, clientSocket, clientInfo1->threadId);
+        if (!command.compare("close")){
+            break;
+        }
     }
-    cout << "Received command: " << commandStr << endl;
-    // Split the command string to the command name and the arguments
-    string str(commandStr);
-    istringstream iss(str);
-    string command;
-    iss >> command;
-    vector<string> args;
-    while (iss) {
-        string arg;
-        iss >> arg;
-        args.push_back(arg);
-    }
-    CommandsManager::getInstance()->executeCommand(command, args, clientSocket, clientInfo1->threadId);
     return NULL;
 }
 //        int players = 0;
