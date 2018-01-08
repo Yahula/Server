@@ -13,7 +13,7 @@
 class ListGamesCommand: public Command {
 public:
     ListGamesCommand(vector<NetworkGame *> *gamesList);
-    virtual void execute(vector<string> args, pthread_t threadId, int socket = 0);
+    virtual void execute(vector<string> args, ClientsInformation *cio);
 private:
     void ListGames();
     vector<NetworkGame *> *gamesList;

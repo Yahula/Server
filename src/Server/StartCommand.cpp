@@ -11,10 +11,10 @@ StartCommand::StartCommand(vector<NetworkGame *> *gamesList){
     this->gamesList = gamesList;
 }
 
-void StartCommand::execute(vector <string> args, pthread_t threadId, int socket) {
-    gamesList->push_back(new NetworkGame(args[0], &threadId, socket));
+void StartCommand::execute(vector <string> args, ClientsInformation *cio) {
+    gamesList->push_back(new NetworkGame(args[0], *cio));
     char msg[] = "Waiting for remote player to join...";
-    int w = write(socket, msg, strlen(msg));
+    int w = write(cio->getsocket(), msg, strlen(msg));
     if (w == -1) {
         std::cout << "Error writing to client" << std::endl;
         return;

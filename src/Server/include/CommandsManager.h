@@ -7,7 +7,6 @@
 
 #include <map>
 #include "StartCommand.h"
-#include "ListGamesCommand.h"
 #include "JoinCommand.h"
 #include "PlayCommand.h"
 //#include "CloseCommand.h"
@@ -16,8 +15,13 @@
 class CommandsManager {
 public:
     static CommandsManager* getInstance();
-    void executeCommand(string command, vector<string> args, int socket = 0, pthread_t threadId = NULL);
+    void executeCommand(string command, vector<string> args, ClientsInformation *cio);
+
+    ClientsInformation *clio;
 private:
+
+
+
     // A singleton
     CommandsManager();
     CommandsManager(const CommandsManager &);

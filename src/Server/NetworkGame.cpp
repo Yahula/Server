@@ -10,10 +10,10 @@
  * @param threadId the thread the game is in.
  * @param socket the first players socket.
  */
-NetworkGame::NetworkGame(string n , pthread_t* threadId , int socket) {
+NetworkGame::NetworkGame(string n , ClientsInformation clio) {
     name = n;
-    gameThread = threadId;
-    socket1 = socket;
+    gameThread = NULL;
+    socket1 = clio.getsocket();
 
 }
 
@@ -36,6 +36,13 @@ void NetworkGame::addSecoundPlayer(int s){
     socket2 = s;
 }
 
+
+
 string NetworkGame::getName(){
     return name;
+}
+
+void NetworkGame::setThread(pthread_t *gt) {
+    gameThread = gt;
+
 }

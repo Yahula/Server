@@ -12,9 +12,8 @@
 class JoinCommand: public Command {
 public:
     JoinCommand(vector<NetworkGame *> *gamesList);
-    void execute(vector<string> args, pthread_t threadId, int socket = 0);
+    void execute(vector<string> args, ClientsInformation *cio);
 private:
-    void join();
     vector<NetworkGame *> *gamesList;
 };
 

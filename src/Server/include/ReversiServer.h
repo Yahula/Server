@@ -36,20 +36,18 @@ public:
      */
     void stop();
 
-    struct clientInfo{
-        pthread_t threadId;
-        int socket;
-    };
+
 
     struct commandInfo{
         string command;
         vector <string> args;
     };
 
-    static commandInfo* recieveCommand(clientInfo *ci);
+    static commandInfo recieveCommand(ClientsInformation *ci);
 
 
 private:
+
     /**
      * the number of the port.
      */

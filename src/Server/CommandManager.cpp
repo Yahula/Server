@@ -22,20 +22,19 @@ CommandsManager* CommandsManager::getInstance() {
 
 CommandsManager::CommandsManager() {
     commandsMap["start"] = new StartCommand(&gamesList);
-    commandsMap["list_games"] = new ListGamesCommand(&gamesList);
     commandsMap["join"] = new JoinCommand(&gamesList);
     commandsMap["play"] = new PlayCommand(&gamesList);
 //    commandsMap["close"] = new CloseCommand();
 }
 
-void CommandsManager::executeCommand(string command, vector<string> args, int socket, pthread_t threadId) {
+void CommandsManager::executeCommand(string command, vector<string> args, ClientsInformation *cio) {
     Command *commandObj = commandsMap[command];
-    commandObj->execute(args, threadId, socket);
+    commandObj->execute(args, cio);
 }
 
 CommandsManager::~CommandsManager() {
-    map<string, Command *>::iterator it;
-    for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
-        delete it->second;
-    }
+//    map<string, Command *>::iterator it;
+//    for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
+//        delete it->second;
+//    }
 }
