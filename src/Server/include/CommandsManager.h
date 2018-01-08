@@ -7,7 +7,6 @@
 
 #include <map>
 #include "StartCommand.h"
-#include "ListGamesCommand.h"
 #include "JoinCommand.h"
 #include "PlayCommand.h"
 //#include "CloseCommand.h"

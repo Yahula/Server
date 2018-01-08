@@ -36,6 +36,13 @@ void NetworkGame::addSecoundPlayer(int s){
     socket2 = s;
 }
 
+
+
 string NetworkGame::getName(){
     return name;
+}
+
+void NetworkGame::setThread(pthread_t *gt) {
+    gameThread = gt;
+
 }

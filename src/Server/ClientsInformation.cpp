@@ -11,7 +11,7 @@
 //}
 
 ClientsInformation::ClientsInformation(int socket) {
-    threadId = NULL;
+    //threadId = NULL;
     socket2 = -1;
     this->socket = socket;
 }
@@ -25,7 +25,7 @@ int ClientsInformation::getsocket2() {
 }
 
 pthread_t* ClientsInformation::getthread() {
-    return threadId;
+    return &threadId;
 }
 
 void ClientsInformation::setsocket2(int s) {
@@ -33,9 +33,9 @@ void ClientsInformation::setsocket2(int s) {
 }
 
 
-void ClientsInformation::setThread(pthread_t *id) {
-    threadId = id;
-
-}
+//void ClientsInformation::setThread(pthread_t *id) {
+//    threadId = id;
+//
+//}
 
 

@@ -63,19 +63,17 @@ static void *acceptClients(void *socket) {
 
         struct ReversiServer::commandInfo coi = ReversiServer::recieveCommand(&info);
         CommandsManager::getInstance()->executeCommand(coi.command, coi.args, &info);
-
         if (info.getsocket2() != -1) {
-            pthread_create(info.setThread(), NULL, &handleClient, &info);
+            pthread_create(&info.threadId, NULL, &handleClient, &info);
         }
     }
 }
 
-static void *handleClient(ClientsInformation *info) {
-
-    commaned begaen
+static void *handleClient(void *info) {
+    ClientsInformation *clientsInfo = (ClientsInformation*) info;
     while (true) {
-        struct ReversiServer::commandInfo coi =  ReversiServer::recieveCommand(info);
-        CommandsManager::getInstance()->executeCommand(coi.command, coi.args, info);
+        struct ReversiServer::commandInfo coi =  ReversiServer::recieveCommand(clientsInfo);
+        CommandsManager::getInstance()->executeCommand(coi.command, coi.args, clientsInfo);
         if (!coi.command.compare("close")){
             break;
         }
@@ -91,7 +89,7 @@ ReversiServer::commandInfo ReversiServer::recieveCommand(ClientsInformation *cli
     int n = read(cli->getsocket(), commandStr, MAX_COMMAND_LEN);
     if (n == -1) {
         cout << "Error reading command" << endl;
-        return NULL;
+        return info;
     }
     cout << "Received command: " << commandStr << endl;
     // Split the command string to the command name and the arguments

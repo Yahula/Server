@@ -22,7 +22,6 @@ CommandsManager* CommandsManager::getInstance() {
 
 CommandsManager::CommandsManager() {
     commandsMap["start"] = new StartCommand(&gamesList);
-    commandsMap["list_games"] = new ListGamesCommand(&gamesList);
     commandsMap["join"] = new JoinCommand(&gamesList);
     commandsMap["play"] = new PlayCommand(&gamesList);
 //    commandsMap["close"] = new CloseCommand();
@@ -34,8 +33,8 @@ void CommandsManager::executeCommand(string command, vector<string> args, Client
 }
 
 CommandsManager::~CommandsManager() {
-    map<string, Command *>::iterator it;
-    for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
-        delete it->second;
-    }
+//    map<string, Command *>::iterator it;
+//    for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
+//        delete it->second;
+//    }
 }

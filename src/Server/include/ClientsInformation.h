@@ -24,11 +24,10 @@ public:
     pthread_t* getthread();
 
     void setThread(pthread_t *id);
-
     void setsocket2(int s);
+    pthread_t threadId;
 
 private:
-    pthread_t *threadId;
     int socket;
     int socket2;
 

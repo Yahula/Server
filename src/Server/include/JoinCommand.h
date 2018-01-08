@@ -14,7 +14,6 @@ public:
     JoinCommand(vector<NetworkGame *> *gamesList);
     void execute(vector<string> args, ClientsInformation *cio);
 private:
-    void join();
     vector<NetworkGame *> *gamesList;
 };
 

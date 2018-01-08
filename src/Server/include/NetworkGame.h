@@ -26,6 +26,8 @@ public:
 
     void addSecoundPlayer(int s);
 
+    void setThread(pthread_t *gt);
+
 private:
     pthread_t *gameThread;
     int socket1, socket2;
