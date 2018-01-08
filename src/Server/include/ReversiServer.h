@@ -36,6 +36,19 @@ public:
      */
     void stop();
 
+    struct clientInfo{
+        pthread_t threadId;
+        int socket;
+    };
+
+    struct commandInfo{
+        string command;
+        vector <string> args;
+    };
+
+    static commandInfo* recieveCommand(clientInfo *ci);
+
+
 private:
     /**
      * the number of the port.
@@ -70,6 +83,11 @@ private:
     int* clients;
     bool firstMove;
     pthread_t serverThreadId;
+
+
+
+
+
 };
 
 
