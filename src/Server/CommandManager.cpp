@@ -28,9 +28,9 @@ CommandsManager::CommandsManager() {
 //    commandsMap["close"] = new CloseCommand();
 }
 
-void CommandsManager::executeCommand(string command, vector<string> args, int socket, pthread_t threadId) {
+void CommandsManager::executeCommand(string command, vector<string> args, ClientsInformation *cio) {
     Command *commandObj = commandsMap[command];
-    commandObj->execute(args, threadId, socket);
+    commandObj->execute(args, cio);
 }
 
 CommandsManager::~CommandsManager() {

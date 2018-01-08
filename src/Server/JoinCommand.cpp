@@ -10,14 +10,14 @@ JoinCommand::JoinCommand(vector<NetworkGame *> *gamesList) {
     this->gamesList = gamesList;
 }
 
-void JoinCommand::execute(vector<string> args, pthread_t threadId, int socket) {
-    pthread_join(threadId,NULL);
+void JoinCommand::execute(vector<string> args, ClientsInformation *cio) {
+    pthread_join(*cio->getthread(),NULL);
     int game;
     for(int i =0; i< gamesList->size() ; i++ ){
         string s = gamesList->at(i)->getName();
         string name(args[0]);
         if (!s.compare(name)){
-            gamesList->at(i)->addSecoundPlayer(socket);
+            gamesList->at(i)->addSecoundPlayer(cio->getsocket());
             game = i;
             break;
         }

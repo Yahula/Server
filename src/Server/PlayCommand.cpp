@@ -11,10 +11,10 @@ PlayCommand::PlayCommand(vector<NetworkGame *> *gamesList) {
     this->gamesList = gamesList;
 }
 
-void PlayCommand::execute(vector<string> args, pthread_t threadId, int socket) {
+void PlayCommand::execute(vector<string> args, struct ClientsInformation *cio) {
     int game;
     for (int i = 0; i < gamesList->size(); i++) {
-        int e = pthread_equal(*gamesList->at(i)->getGameThread(), threadId);
+        int e = pthread_equal(*gamesList->at(i)->getGameThread(), *cio->getthread());
         if (e){
             game = i;
             break;
@@ -27,7 +27,7 @@ void PlayCommand::execute(vector<string> args, pthread_t threadId, int socket) {
     strcpy(msg1, move);//the played move
     char msg2[] = "Waiting for second player to play...";
 
-    if (blckSock == socket) {//black player made the move, we send the move to white
+    if (blckSock == cio->getsocket()) {//black player made the move, we send the move to white
         int w = write(witSock, msg1, strlen(msg1));
         if (w == -1) {
             std::cout << "Error writing to client" << std::endl;

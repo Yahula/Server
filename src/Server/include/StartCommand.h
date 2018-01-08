@@ -15,7 +15,7 @@
 class StartCommand: public Command {
 public:
     StartCommand(vector<NetworkGame *> *gamesList);
-    void execute(vector<string> args, pthread_t threadId, int socket = 0);
+    void execute(vector<string> args, ClientsInformation *cio);
 private:
     void start();
     vector<NetworkGame *> *gamesList;
