@@ -9,10 +9,7 @@
 #define MAX_CONNECTED_CLIENTS 10
 #define MAX_COMMAND_LEN 50
 
-struct clientInfo{
-    pthread_t threadId;
-    int socket;
-};
+
 static void *acceptClients(void *);
 static void *handleClient(void *);
 
@@ -62,44 +59,55 @@ static void *acceptClients(void *socket) {
         std::cout << "Client connected" << std::endl;
 
 
-        struct clientInfo info;
-
+        struct ReversiServer::clientInfo info;
         info.socket = clientSocket;
+
+        struct ReversiServer::commandInfo *coi =  ReversiServer::recieveCommand(&info);
+        CommandsManager::getInstance()->executeCommand(coi->command, coi->args, clientSocket, info.threadId);
+
+
         pthread_create(&info.threadId, NULL, &handleClient, (void *)&info);
     }
 }
 
 static void *handleClient(void *info) {
-    struct clientInfo *clientInfo1 = (struct clientInfo *)info;
+    struct ReversiServer::clientInfo *clientInfo1 = (struct ReversiServer::clientInfo *)info;
     long clientSocket = (long) clientInfo1->socket;
 
     while (true) {
-        char commandStr[MAX_COMMAND_LEN] = "\0";
-        // Read the command from the socket
-        int n = read(clientSocket, commandStr, MAX_COMMAND_LEN);
-        if (n == -1) {
-            cout << "Error reading command" << endl;
-            return NULL;
-        }
-        cout << "Received command: " << commandStr << endl;
-        // Split the command string to the command name and the arguments
-        string str(commandStr);
-        istringstream iss(str);
-        string command;
-        iss >> command;
-        vector<string> args;
-        while (iss) {
-            string arg;
-            iss >> arg;
-            args.push_back(arg);
-        }
-        CommandsManager::getInstance()->executeCommand(command, args, clientSocket, clientInfo1->threadId);
-        if (!command.compare("close")){
+        struct ReversiServer::commandInfo *coi =  ReversiServer::recieveCommand(clientInfo1);
+        CommandsManager::getInstance()->executeCommand(coi->command, coi->args, clientSocket, clientInfo1->threadId);
+        if (!coi->command.compare("close")){
             break;
         }
     }
     return NULL;
 }
+
+commandInfo* ReversiServer::recieveCommand(clientInfo *cli){
+    struct ReversiServer::commandInfo info;
+
+    char commandStr[MAX_COMMAND_LEN] = "\0";
+    // Read the command from the socket
+    int n = read(cli->socket, commandStr, MAX_COMMAND_LEN);
+    if (n == -1) {
+        cout << "Error reading command" << endl;
+        return NULL;
+    }
+    cout << "Received command: " << commandStr << endl;
+    // Split the command string to the command name and the arguments
+    string str(commandStr);
+    istringstream iss(str);
+    iss >> info.command;
+    vector<string> args;
+    while (iss) {
+        string arg;
+        iss >> arg;
+        info.args.push_back(arg);
+    }
+    return &info;
+}
+
 //        int players = 0;
 //    //first player connection
 //    int clientSocket1 = accept(serverSocket, (struct sockaddr *) &clientAddress, &clientAddressLen);
