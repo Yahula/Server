@@ -7,19 +7,21 @@
 #include "./include/JoinCommand.h"
 #define MAX_GAME_NAME 50
 
-JoinCommand::JoinCommand(vector<NetworkGame *> *gamesList) {
+JoinCommand::JoinCommand(vector<NetworkGame> *gamesList) {
     this->gamesList = gamesList;
 }
 
-void JoinCommand::execute(vector<string> args, ClientsInformation *cio) {
-// writes the lst of games
+void JoinCommand::execute(vector<string> args, NetworkGame *cio) {
+// writes the list of games
     string s;
 
-    for(int i =0; i< gamesList->size() ; i++ ){
-        s.append(gamesList->at(i)->getName());
-        s.append(" \n");
+    for (int i = 0; i < gamesList->size(); i++) {
+        if(gamesList->at(i).getSocket2()==-1) {
+            s.append(gamesList->at(i).getName());
+            s.append(" \n");
+        }
     }
-    int w = write(cio->getsocket(), &s, s.length());
+    int w = write(cio->getSocket1(), &s, s.length());
     if (w == -1) {
         std::cout << "Error writing to client" << std::endl;
         return;
@@ -33,29 +35,30 @@ void JoinCommand::execute(vector<string> args, ClientsInformation *cio) {
 
     //read game selection
     char gameName[MAX_GAME_NAME] = "\0";
+    int temp = 0;
+        int n = read(cio->getSocket1(), gameName, MAX_GAME_NAME);
+        if (n == -1) {
+            std::cout << "Error writing to client" << std::endl;
+            return;
+        }
 
-    int n = read(cio->getsocket(), gameName, MAX_GAME_NAME);
-    if (n == -1) {
-        std::cout << "Error writing to client" << std::endl;
-        return;
-    }
+    int game;
 
     //adds the second socket to the network game
-    int game;
-    for(int i =0; i< gamesList->size() ; i++ ){
-        string s = gamesList->at(i)->getName();
+    for (int i = 0; i < gamesList->size(); i++) {
+        string s = gamesList->at(i).getName();
         string name(gameName);
-        if (!s.compare(name)){
-            gamesList->at(i)->addSecoundPlayer(cio->getsocket());
+        if (!s.compare(name)) {
+            gamesList->at(i).addSecoundPlayer(cio->getSocket1());
             game = i;
             break;
         }
     }
 
-    cio->setsocket2(gamesList->at(game)->getSocket1());
+    *cio = *&gamesList->at(game);
 
-    int blckSock = gamesList->at(game)->getSocket1();
-    int witSock = gamesList->at(game)->getSocket2();
+    int blckSock = gamesList->at(game).getSocket1();
+    int witSock = gamesList->at(game).getSocket2();
 
     char msg1[] = "Remote player has joined the game! we are ready to roll :) \nYou are the black (X) player, you play first! \n";
     w = write(blckSock, msg1, strlen(msg1));

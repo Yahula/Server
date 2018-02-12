@@ -15,7 +15,7 @@
 class CommandsManager {
 public:
     static CommandsManager* getInstance();
-    void executeCommand(string command, vector<string> args, ClientsInformation *cio);
+    void executeCommand(string command, vector<string> args, NetworkGame *cio);
 
     ClientsInformation *clio;
 private:
@@ -29,7 +29,7 @@ private:
     static CommandsManager* instance;
     static pthread_mutex_t lock;
     map<string, Command *> commandsMap;
-    vector<NetworkGame *> gamesList;
+    vector<NetworkGame> gamesList;
 
 };
 

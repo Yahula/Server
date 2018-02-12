@@ -11,10 +11,17 @@
 
 using namespace std;
 
+/**
+ * this calss strores the information of a single game.
+ */
 class NetworkGame {
 public:
     ~NetworkGame();
-    NetworkGame(string n , ClientsInformation clio);
+
+   // NetworkGame(string n , ClientsInformation clio);
+    NetworkGame(int socket);
+
+    NetworkGame(const NetworkGame& other);
 
     pthread_t *getGameThread();
 
@@ -27,6 +34,8 @@ public:
     void addSecoundPlayer(int s);
 
     void setThread(pthread_t *gt);
+
+    void setName(const string &name);
 
 private:
     pthread_t *gameThread;

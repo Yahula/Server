@@ -12,6 +12,7 @@
 #include <sstream>
 #include "CommandsManager.h"
 #include <unistd.h>
+#include "NetworkGame.h"
 
 
 
@@ -43,7 +44,7 @@ public:
         vector <string> args;
     };
 
-    static commandInfo recieveCommand(ClientsInformation *ci);
+    static commandInfo recieveCommand(int socket);
 
 
 private:

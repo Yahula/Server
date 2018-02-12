@@ -14,11 +14,11 @@
 
 class StartCommand: public Command {
 public:
-    StartCommand(vector<NetworkGame *> *gamesList);
-    void execute(vector<string> args, ClientsInformation *cio);
+    StartCommand(vector<NetworkGame> *gamesList);
+    void execute(vector<string> args, NetworkGame *cio);
 private:
     void start();
-    vector<NetworkGame *> *gamesList;
+    vector<NetworkGame> *gamesList;
 };
 
 

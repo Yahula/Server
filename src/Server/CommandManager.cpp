@@ -27,12 +27,15 @@ CommandsManager::CommandsManager() {
 //    commandsMap["close"] = new CloseCommand();
 }
 
-void CommandsManager::executeCommand(string command, vector<string> args, ClientsInformation *cio) {
+void CommandsManager::executeCommand(string command, vector<string> args, NetworkGame *cio) {
+
+   // NetworkGame *netgame = new NetworkGame(*cio);
     Command *commandObj = commandsMap[command];
     commandObj->execute(args, cio);
 }
 
 CommandsManager::~CommandsManager() {
+
 //    map<string, Command *>::iterator it;
 //    for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
 //        delete it->second;

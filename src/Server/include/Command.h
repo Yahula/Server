@@ -10,16 +10,16 @@
 #include <string>
 #include <pthread.h>
 #include "unistd.h"
-#include "ClientsInformation.h"
+#include "NetworkGame.h"
 
 using namespace std;
 
 class Command {
 public:
-    virtual void execute(vector<string> args,  ClientsInformation *cio) = 0;
+    virtual void execute(vector<string> args,  NetworkGame *cio) = 0;
     virtual ~Command() {}
 
-    ClientsInformation *clio;
+   // NetworkGame *clio;
 
 protected:
 

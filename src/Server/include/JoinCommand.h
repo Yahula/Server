@@ -11,10 +11,10 @@
 
 class JoinCommand: public Command {
 public:
-    JoinCommand(vector<NetworkGame *> *gamesList);
-    void execute(vector<string> args, ClientsInformation *cio);
+    JoinCommand(vector<NetworkGame> *gamesList);
+    void execute(vector<string> args, NetworkGame *cio);
 private:
-    vector<NetworkGame *> *gamesList;
+    vector<NetworkGame> *gamesList;
 };
 
 #endif //SERVER_JOINCOMMAND_H
