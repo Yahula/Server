@@ -18,7 +18,6 @@ void PlayCommand::execute(vector<string> args, NetworkGame *gameInfo) {
     cout<<"args0:"<<args[0]<<" args1:"<<args[1]<<" args2:"<<args[2]<<endl;
 
     for (int i = 0; i < gamesList->size(); i++) {
-       // int e = pthread_equal(*gamesList->at(i).getName(), *clntinfo->getName());
         if (gamesList->at(i).getName() == gameInfo->getName()){
             game = i;
             break;

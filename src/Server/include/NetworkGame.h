@@ -23,7 +23,7 @@ public:
 
     NetworkGame(const NetworkGame& other);
 
-    pthread_t *getGameThread();
+    pthread_t getGameThread();
 
     int getSocket1();
 
@@ -37,8 +37,9 @@ public:
 
     void setName(const string &name);
 
+    pthread_t gameThread;
+
 private:
-    pthread_t *gameThread;
     int socket1, socket2;
     string name;
 

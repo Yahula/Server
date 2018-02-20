@@ -24,7 +24,7 @@ CommandsManager::CommandsManager() {
     commandsMap["start"] = new StartCommand(&gamesList);
     commandsMap["join"] = new JoinCommand(&gamesList);
     commandsMap["play"] = new PlayCommand(&gamesList);
-//    commandsMap["close"] = new CloseCommand();
+    commandsMap["close"] = new CloseCommand(&gamesList);
 }
 
 void CommandsManager::executeCommand(string command, vector<string> args, NetworkGame *cio) {
@@ -40,4 +40,8 @@ CommandsManager::~CommandsManager() {
 //    for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
 //        delete it->second;
 //    }
+}
+
+const vector<NetworkGame, allocator<NetworkGame> > &CommandsManager::getGamesList() const {
+    return gamesList;
 }

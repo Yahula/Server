@@ -50,9 +50,6 @@ static void *acceptClients(void *socket) {
     struct sockaddr_in clientAddress;
     socklen_t clientAddressLen;
 
-    pthread_t my_threads[MAX_CONNECTED_CLIENTS/2];
-    int threadnum = 0;
-
     while (true) {
         std::cout << "Waiting for client connections..." << std::endl;
 
@@ -67,8 +64,7 @@ static void *acceptClients(void *socket) {
         struct ReversiServer::commandInfo cominf = ReversiServer::recieveCommand(clientSocket);
         CommandsManager::getInstance()->executeCommand(cominf.command, cominf.args, info);
         if (info->getSocket2() != -1) {
-            pthread_create(&my_threads[threadnum], NULL, &handleClient, info);
-            threadnum++;
+            pthread_create(&info->gameThread, NULL, &handleClient, info);
         }
 
     }
@@ -98,7 +94,7 @@ static void *handleClient(void *info) {
         }
 
     }
-//    pthread_exit(NULL);
+    pthread_exit(NULL);
     return NULL;
 }
 
@@ -112,7 +108,7 @@ ReversiServer::commandInfo ReversiServer::recieveCommand(int socket){
         cout << "Error reading command" << endl;
         return info;
     }
-    cout << "\a" << "\33[4" << 2 << "m"<< "Received command: " << commandStr << endl;
+    cout <<"Received command: " << commandStr << endl;
     // Split the command string to the command name and the arguments
     string str(commandStr);
     istringstream iss(str);
@@ -125,6 +121,27 @@ ReversiServer::commandInfo ReversiServer::recieveCommand(int socket){
     }
     return info;
 }
+
+
+
+
+/**
+ * closes the socket.
+ */
+void ReversiServer::stop() {
+    vector<NetworkGame>games = CommandsManager::getInstance()->getGamesList();
+    for (std::vector<NetworkGame>::iterator it = games.begin(); it != games.end(); ++it) {
+        close(it->getSocket1());
+        if(it->getSocket2()!=-1){
+            close(it->getSocket2());
+        }
+
+    }
+    pthread_cancel(serverThreadId);
+    close(serverSocket);
+    cout << "Server stopped" << endl;
+}
+
 
 //        int players = 0;
 //    //first player connection
@@ -235,13 +252,4 @@ ReversiServer::commandInfo ReversiServer::recieveCommand(int socket){
 //
 //}
 
-
-/**
- * closes the socket.
- */
-    void ReversiServer::stop() {
-    pthread_cancel(serverThreadId);
-        close(serverSocket);
-    cout << "Server stopped" << endl;
-    }
 

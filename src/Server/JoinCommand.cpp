@@ -5,7 +5,12 @@
 #include <string>
 #include <iostream>
 #include "./include/JoinCommand.h"
+#include <mutex>
+
+
 #define MAX_GAME_NAME 50
+
+std::mutex mtx;
 
 JoinCommand::JoinCommand(vector<NetworkGame> *gamesList) {
     this->gamesList = gamesList;
@@ -14,11 +19,11 @@ JoinCommand::JoinCommand(vector<NetworkGame> *gamesList) {
 void JoinCommand::execute(vector<string> args, NetworkGame *cio) {
 // writes the list of games
     string s;
+    mtx.lock();
 
     for (int i = 0; i < gamesList->size(); i++) {
         if(gamesList->at(i).getSocket2()==-1) {
-            s.append(gamesList->at(i).getName());
-            s.append(" \n");
+            s = s + gamesList->at(i).getName() + " ";
         }
     }
     int w = write(cio->getSocket1(), &s, s.length());
@@ -50,6 +55,7 @@ void JoinCommand::execute(vector<string> args, NetworkGame *cio) {
         string name(gameName);
         if (!s.compare(name)) {
             gamesList->at(i).addSecoundPlayer(cio->getSocket1());
+            mtx.unlock();
             game = i;
             break;
         }

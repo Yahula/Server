@@ -9,15 +9,17 @@
 #include "StartCommand.h"
 #include "JoinCommand.h"
 #include "PlayCommand.h"
-//#include "CloseCommand.h"
+#include "CloseCommand.h"
 #include "NetworkGame.h"
 
 class CommandsManager {
 public:
     static CommandsManager* getInstance();
     void executeCommand(string command, vector<string> args, NetworkGame *cio);
-
     ClientsInformation *clio;
+
+    const vector<NetworkGame, allocator<NetworkGame> > &getGamesList() const;
+
 private:
 
 
