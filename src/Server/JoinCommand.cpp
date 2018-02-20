@@ -22,7 +22,7 @@ void JoinCommand::execute(vector<string> args, NetworkGame *cio) {
     mtx.lock();
 
     for (int i = 0; i < gamesList->size(); i++) {
-        if(gamesList->at(i).getSocket2()==-1) {
+        if (gamesList->at(i).getSocket2() == -1) {
             s = s + gamesList->at(i).getName() + " ";
         }
     }
@@ -31,24 +31,16 @@ void JoinCommand::execute(vector<string> args, NetworkGame *cio) {
         std::cout << "Error writing to client" << std::endl;
         return;
     }
-//    char msg[] = "END_LIST";
-//    w = write(cio->getsocket(), msg, strlen(msg));
-//    if (w == -1) {
-//        std::cout << "Error writing to client" << std::endl;
-//        return;
-//    }
 
     //read game selection
     char gameName[MAX_GAME_NAME] = "\0";
     int temp = 0;
-        int n = read(cio->getSocket1(), gameName, MAX_GAME_NAME);
-        if (n == -1) {
-            std::cout << "Error writing to client" << std::endl;
-            return;
-        }
-
+    int n = read(cio->getSocket1(), gameName, MAX_GAME_NAME);
+    if (n == -1) {
+        std::cout << "Error writing to client" << std::endl;
+        return;
+    }
     int game;
-
     //adds the second socket to the network game
     for (int i = 0; i < gamesList->size(); i++) {
         string s = gamesList->at(i).getName();
@@ -62,7 +54,6 @@ void JoinCommand::execute(vector<string> args, NetworkGame *cio) {
     }
 
     *cio = *&gamesList->at(game);
-
     int blckSock = gamesList->at(game).getSocket1();
     int witSock = gamesList->at(game).getSocket2();
 

@@ -9,10 +9,12 @@
 #include "Command.h"
 #include "NetworkGame.h"
 
-class JoinCommand: public Command {
+class JoinCommand : public Command {
 public:
     JoinCommand(vector<NetworkGame> *gamesList);
+
     void execute(vector<string> args, NetworkGame *cio);
+
 private:
     vector<NetworkGame> *gamesList;
 };

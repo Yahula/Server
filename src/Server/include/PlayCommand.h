@@ -9,12 +9,15 @@
 #include "Command.h"
 #include "NetworkGame.h"
 
-class PlayCommand: public Command {
+class PlayCommand : public Command {
 public:
     PlayCommand(vector<NetworkGame> *gamesList);
+
     void execute(vector<string> args, NetworkGame *clntinfo);
+
 private:
     void play();
+
     vector<NetworkGame> *gamesList;
 };
 

@@ -8,10 +8,12 @@
 
 #include "Command.h"
 
-class CloseCommand: public Command {
+class CloseCommand : public Command {
 public:
     CloseCommand(vector<NetworkGame> *gamesList);
+
     void execute(vector<string> args, NetworkGame *gameInfo);
+
 private:
     vector<NetworkGame> *gamesList;
 };

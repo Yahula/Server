@@ -14,11 +14,8 @@ PlayCommand::PlayCommand(vector<NetworkGame> *gamesList) {
 
 void PlayCommand::execute(vector<string> args, NetworkGame *gameInfo) {
     int game;
-
-    cout<<"args0:"<<args[0]<<" args1:"<<args[1]<<" args2:"<<args[2]<<endl;
-
     for (int i = 0; i < gamesList->size(); i++) {
-        if (gamesList->at(i).getName() == gameInfo->getName()){
+        if (gamesList->at(i).getName() == gameInfo->getName()) {
             game = i;
             break;
         }
@@ -33,15 +30,13 @@ void PlayCommand::execute(vector<string> args, NetworkGame *gameInfo) {
 
     string player = args[1];
 
-    cout<<"player: "<<player<<endl;
-
     if (!player.compare("-1")) { //black player made the move
         int w = write(witSock, msg1, strlen(msg1));
         if (w == -1) {
             std::cout << "Error writing to client" << std::endl;
             return;
         }
-        cout << "Wrote to white: " << msg1;
+        cout << "Wrote to white: " << msg1 << std::endl;
 
         w = write(blckSock, msg2, strlen(msg2));//black needs to wait
         if (w == -1) {

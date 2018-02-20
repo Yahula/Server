@@ -14,21 +14,25 @@
 
 class CommandsManager {
 public:
-    static CommandsManager* getInstance();
+    static CommandsManager *getInstance();
+
     void executeCommand(string command, vector<string> args, NetworkGame *cio);
-    ClientsInformation *clio;
+
+    void deleteCommandManager();
 
     const vector<NetworkGame, allocator<NetworkGame> > &getGamesList() const;
 
 private:
 
 
-
     // A singleton
     CommandsManager();
+
     CommandsManager(const CommandsManager &);
+
     ~CommandsManager();
-    static CommandsManager* instance;
+
+    static CommandsManager *instance;
     static pthread_mutex_t lock;
     map<string, Command *> commandsMap;
     vector<NetworkGame> gamesList;

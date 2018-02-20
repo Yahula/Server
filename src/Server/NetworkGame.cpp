@@ -11,28 +11,28 @@
  * @param socket the first players socket.
  */
 
-NetworkGame::NetworkGame(int socket) : gameThread(), socket2(-1), socket1(socket){}
+NetworkGame::NetworkGame(int socket) : gameThread(), socket2(-1), socket1(socket) {}
 
 NetworkGame::~NetworkGame() {
 }
 
-pthread_t NetworkGame::getGameThread(){
+pthread_t NetworkGame::getGameThread() {
     return gameThread;
 }
 
-int NetworkGame::getSocket1(){
+int NetworkGame::getSocket1() {
     return socket1;
 }
 
-int NetworkGame::getSocket2(){
+int NetworkGame::getSocket2() {
     return socket2;
 }
 
-void NetworkGame::addSecoundPlayer(int s){
+void NetworkGame::addSecoundPlayer(int s) {
     socket2 = s;
 }
 
-string NetworkGame::getName(){
+string NetworkGame::getName() {
     return name;
 }
 
@@ -45,5 +45,3 @@ NetworkGame::NetworkGame(const NetworkGame &other) {
     socket2 = other.socket2;
     name = other.name;
 }
-
-

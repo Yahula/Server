@@ -7,7 +7,6 @@
 
 #include <pthread.h>
 #include <string>
-#include "ClientsInformation.h"
 
 using namespace std;
 
@@ -18,10 +17,9 @@ class NetworkGame {
 public:
     ~NetworkGame();
 
-   // NetworkGame(string n , ClientsInformation clio);
     NetworkGame(int socket);
 
-    NetworkGame(const NetworkGame& other);
+    NetworkGame(const NetworkGame &other);
 
     pthread_t getGameThread();
 
@@ -33,8 +31,6 @@ public:
 
     void addSecoundPlayer(int s);
 
-    void setThread(pthread_t *gt);
-
     void setName(const string &name);
 
     pthread_t gameThread;
@@ -44,6 +40,5 @@ private:
     string name;
 
 };
-
 
 #endif //SERVER_NETWORKGAME_H

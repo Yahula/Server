@@ -7,11 +7,11 @@
 #include "include/StartCommand.h"
 
 
-StartCommand::StartCommand(vector<NetworkGame> *gamesList){
+StartCommand::StartCommand(vector<NetworkGame> *gamesList) {
     this->gamesList = gamesList;
 }
 
-void StartCommand::execute(vector <string> args, NetworkGame *cio) {
+void StartCommand::execute(vector<string> args, NetworkGame *cio) {
     NetworkGame netgame(cio->getSocket1());
     netgame.setName(args[0]);
     gamesList->push_back(netgame);
@@ -21,15 +21,6 @@ void StartCommand::execute(vector <string> args, NetworkGame *cio) {
         std::cout << "Error writing to client" << std::endl;
         return;
     }
-
-    //rights to the player that he will be first.
-//    char temp = '0';
-//    char* num = &temp;
-//    int t = write(cio->getSocket1(), num, strlen(num));
-//    if (t == -1) {
-//        std::cout << "Error writing to client" << std::endl;
-//        return;
-//    }
 }
 
 void StartCommand::start() {}

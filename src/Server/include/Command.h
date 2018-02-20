@@ -16,10 +16,11 @@ using namespace std;
 
 class Command {
 public:
-    virtual void execute(vector<string> args,  NetworkGame *cio) = 0;
+    virtual void execute(vector<string> args, NetworkGame *cio) = 0;
+
     virtual ~Command() {}
 
-   // NetworkGame *clio;
+    // NetworkGame *clio;
 
 protected:
 

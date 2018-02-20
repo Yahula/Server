@@ -5,11 +5,11 @@
 #include "./include/CommandsManager.h"
 
 
-CommandsManager* CommandsManager::instance = 0;
+CommandsManager *CommandsManager::instance = 0;
 
 pthread_mutex_t CommandsManager::lock;
 
-CommandsManager* CommandsManager::getInstance() {
+CommandsManager *CommandsManager::getInstance() {
     if (instance == 0) {
         pthread_mutex_lock(&lock);
         if (instance == 0) {
@@ -28,19 +28,20 @@ CommandsManager::CommandsManager() {
 }
 
 void CommandsManager::executeCommand(string command, vector<string> args, NetworkGame *cio) {
-
-   // NetworkGame *netgame = new NetworkGame(*cio);
     Command *commandObj = commandsMap[command];
     commandObj->execute(args, cio);
 }
 
 CommandsManager::~CommandsManager() {
-
-//    map<string, Command *>::iterator it;
-//    for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
-//        delete it->second;
-//    }
+    delete (commandsMap["start"]);
+    delete (commandsMap["join"]);
+    delete (commandsMap["play"]);
+    delete (commandsMap["close"]);
 }
+
+void CommandsManager::deleteCommandManager() {
+    delete (this);
+};
 
 const vector<NetworkGame, allocator<NetworkGame> > &CommandsManager::getGamesList() const {
     return gamesList;
