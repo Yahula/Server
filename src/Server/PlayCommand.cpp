@@ -4,35 +4,40 @@
 
 #include <string>
 #include <iostream>
+#include <sys/stat.h>
 #include "include/PlayCommand.h"
 #include "include/NetworkGame.h"
 
-PlayCommand::PlayCommand(vector<NetworkGame *> *gamesList) {
+PlayCommand::PlayCommand(vector<NetworkGame> *gamesList) {
     this->gamesList = gamesList;
 }
 
-void PlayCommand::execute(vector<string> args, struct ClientsInformation *cio) {
+void PlayCommand::execute(vector<string> args, NetworkGame *gameInfo) {
     int game;
     for (int i = 0; i < gamesList->size(); i++) {
-        int e = pthread_equal(*gamesList->at(i)->getGameThread(), *cio->getthread());
-        if (e){
+        if (gamesList->at(i).getName() == gameInfo->getName()) {
             game = i;
             break;
         }
     }
-    int blckSock = gamesList->at(game)->getSocket1();
-    int witSock = gamesList->at(game)->getSocket2();
+    int blckSock = gamesList->at(game).getSocket1();
+    int witSock = gamesList->at(game).getSocket2();
+
     char msg1[10];
     const char *move = args[0].c_str();
     strcpy(msg1, move);//the played move
     char msg2[] = "Waiting for second player to play...";
 
-    if (blckSock == cio->getsocket()) {//black player made the move, we send the move to white
+    string player = args[1];
+
+    if (!player.compare("-1")) { //black player made the move
         int w = write(witSock, msg1, strlen(msg1));
         if (w == -1) {
             std::cout << "Error writing to client" << std::endl;
             return;
         }
+        cout << "Wrote to white: " << msg1 << std::endl;
+
         w = write(blckSock, msg2, strlen(msg2));//black needs to wait
         if (w == -1) {
             std::cout << "Error writing to client" << std::endl;
@@ -44,7 +49,7 @@ void PlayCommand::execute(vector<string> args, struct ClientsInformation *cio) {
             std::cout << "Error writing to client" << std::endl;
             return;
         }
-        w = write(blckSock, msg1, strlen(msg1));//black needs to wait
+        w = write(blckSock, msg1, strlen(msg1));//white needs to wait
         if (w == -1) {
             std::cout << "Error writing to client" << std::endl;
             return;

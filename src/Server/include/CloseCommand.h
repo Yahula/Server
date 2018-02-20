@@ -8,12 +8,14 @@
 
 #include "Command.h"
 
-class CloseCommand: public Command {
+class CloseCommand : public Command {
 public:
-    CloseCommand() {}
-    void execute(vector<string> args, pthread_t threadId, int socket = 0);
+    CloseCommand(vector<NetworkGame> *gamesList);
+
+    void execute(vector<string> args, NetworkGame *gameInfo);
+
 private:
-    void close();
+    vector<NetworkGame> *gamesList;
 };
 
 #endif //SERVER_CLOSECOMMAND_H

@@ -7,16 +7,21 @@
 
 #include <pthread.h>
 #include <string>
-#include "ClientsInformation.h"
 
 using namespace std;
 
+/**
+ * this calss strores the information of a single game.
+ */
 class NetworkGame {
 public:
     ~NetworkGame();
-    NetworkGame(string n , ClientsInformation clio);
 
-    pthread_t *getGameThread();
+    NetworkGame(int socket);
+
+    NetworkGame(const NetworkGame &other);
+
+    pthread_t getGameThread();
 
     int getSocket1();
 
@@ -26,14 +31,14 @@ public:
 
     void addSecoundPlayer(int s);
 
-    void setThread(pthread_t *gt);
+    void setName(const string &name);
+
+    pthread_t gameThread;
 
 private:
-    pthread_t *gameThread;
     int socket1, socket2;
     string name;
 
 };
-
 
 #endif //SERVER_NETWORKGAME_H

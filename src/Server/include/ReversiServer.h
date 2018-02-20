@@ -12,7 +12,7 @@
 #include <sstream>
 #include "CommandsManager.h"
 #include <unistd.h>
-
+#include "NetworkGame.h"
 
 
 /**
@@ -31,19 +31,19 @@ public:
      * starts the connection.
      */
     void start();
+
     /**
      * ends the connection.
      */
     void stop();
 
 
-
-    struct commandInfo{
+    struct commandInfo {
         string command;
-        vector <string> args;
+        vector<string> args;
     };
 
-    static commandInfo recieveCommand(ClientsInformation *ci);
+    static commandInfo recieveCommand(int socket);
 
 
 private:
@@ -61,14 +61,7 @@ private:
     /**
      * the command to pass between the players. what move did the other player make.
      */
-    char* move;
-
-    /**
-     * the function that controls one comunication cercal with one player.
-     * it tells him what was the previews move and ask for the new move.
-     * @param clientServer which player.
-     */
-    void hendleClient(int clientServer);
+    char *move;
 
     /**
      * counts how many times in a raw the players couldn't move.
@@ -78,12 +71,11 @@ private:
     /**
      * an array of players(clients).
      */
-    int* clients;
+    int *clients;
+
     bool firstMove;
+
     pthread_t serverThreadId;
-
-
-
 
 
 };

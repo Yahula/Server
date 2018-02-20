@@ -10,15 +10,14 @@ using namespace std;
 
 
 int main() {
-    ifstream sconfig;
-    sconfig.open("../../exe/client_config.txt");
-
+    ifstream serverConfig;
+    serverConfig.open("../exe/server_config.txt");
     string p;
-    getline(sconfig, p);
+    getline(serverConfig, p);
     int port;
-    istringstream(p) >> port ;
+    istringstream(p) >> port;
 
-    ReversiServer server(5001);
+    ReversiServer server(port);
 
     try {
         server.start();
